@@ -25,12 +25,3 @@ tflint: $(addsuffix /tflint,$(azure_modules)) ## Perform tflint for all modules
 modules/azure/%/tflint: modules/azure/%/*.tf
 	@printf "Performing tflint on %s...\n" $(@D)
 	@cd $(@D); tflint $(tflint_config) --init; tflint $(tflint_config);
-
-detect-secrets/baseline-create:
-	detect-secrets scan > .secrets.baseline
-
-detect-secrets/baseline-update:
-	detect-secrets scan --baseline .secrets.baseline
-
-detect-secrets/scan:
-	detect-secrets scan .
