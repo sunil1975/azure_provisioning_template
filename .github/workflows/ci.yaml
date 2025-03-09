@@ -47,5 +47,12 @@ jobs:
       - name: Validate terraform files
         run: make validate
 
+      - name: Install terraform-docs
+        uses: supplypike/setup-bin@v4
+        with:
+          uri: https://github.com/terraform-docs/terraform-docs/releases/download/v0.19.0/terraform-docs-v0.19.0-linux-amd64.tar.gz
+          name: terraform-docs
+          version: 0.19.0
+
       - name: Validate whether tfdocs are up-to-date
-        run: make tfdocs-check
+        run: make tfdocs-check        
