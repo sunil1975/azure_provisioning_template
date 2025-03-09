@@ -26,4 +26,10 @@ modules/azure/%/tflint: modules/azure/%/*.tf ## Perform tf files for module
 	@printf "Performing tflint on %s...\n" $(@D)
 	@cd $(@D); tflint
 
-ci: hclfmt-check fmt-check tflint
+validate: $(addsuffix /validate,$(azure_modules)) ## Perform terraform validate for all modules
+
+modules/azure/%/validate: modules/azure/%/*.tf
+	@printf "Performing terraform validation on %s...\n" $(@D)
+	@cd $(@D); terraform init -backend=false; terraform validate;
+
+ci: hclfmt-check fmt-check tflint validate

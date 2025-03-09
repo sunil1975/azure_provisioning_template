@@ -43,3 +43,6 @@ jobs:
 
       - name: Check for tflint
         run: make tflint
+
+      - name: Validate terraform files
+        run: make validate
