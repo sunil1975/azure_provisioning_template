@@ -22,7 +22,13 @@ jobs:
         continue-on-error: false
         uses: eLco/setup-terragrunt@v1
         with:
-          terragrunt_version: 0.75.3
+          terragrunt_version: "0.75.3"
+
+      - name: Install Terraform
+        continue-on-error: false
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.11.1"
 
       - name: Check for basic formatting - terragrunt hclfmt
         run: make hclfmt-check
