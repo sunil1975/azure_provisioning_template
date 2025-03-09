@@ -22,6 +22,8 @@ modules/azure/%/fmt-check: modules/azure/%/*.tf ## Format tf files for module
 
 tflint: $(addsuffix /tflint,$(azure_modules)) ## Perform tflint for all modules
 
-modules/azure/%/tflint: modules/azure/%/*.tf
+modules/azure/%/tflint: modules/azure/%/*.tf ## Perform tf files for module
 	@printf "Performing tflint on %s...\n" $(@D)
-	@cd $(@D); tflint $(tflint_config) --init; tflint $(tflint_config);
+	@cd $(@D); tflint
+
+ci: hclfmt-check fmt-check tflint
