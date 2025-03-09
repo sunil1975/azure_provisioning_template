@@ -68,3 +68,6 @@ jobs:
           output_format: sarif
           download_external_modules: false 
           log_level: DEBUG
+
+      - name: Run terraform tests for all modules
+        run: make test

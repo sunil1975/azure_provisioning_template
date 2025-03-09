@@ -14,9 +14,9 @@ modules/azure/%/fmt: modules/azure/%/*.tf ## Format tf files for module
 	@printf "Performing terraform fmt on %s...\n" $(@D)
 	@cd $(@D); terraform fmt;
 
-fmt-check: $(addsuffix /fmt-check,$(azure_modules)) ## Format all tf files
+fmt-check: $(addsuffix /fmt-check,$(azure_modules)) ## Check if tf files are formatted
 
-modules/azure/%/fmt-check: modules/azure/%/*.tf ## Format tf files for module
+modules/azure/%/fmt-check: modules/azure/%/*.tf ## Check if tf files in a module are formatted
 	@printf "Check if terraform files are formatted on %s...\n" $(@D)
 	@cd $(@D); terraform fmt --check;
 
@@ -28,24 +28,30 @@ modules/azure/%/tflint: modules/azure/%/*.tf ## Perform tf files for module
 
 validate: $(addsuffix /validate,$(azure_modules)) ## Perform terraform validate for all modules
 
-modules/azure/%/validate: modules/azure/%/*.tf
+modules/azure/%/validate: modules/azure/%/*.tf ## Perform terraform validate for a module
 	@printf "Performing terraform validation on %s...\n" $(@D)
 	@cd $(@D); terraform init -backend=false; terraform validate;
 
 tfdocs: $(addsuffix /tfdocs,$(azure_modules)) ## Create terraform docs for all modules
 
-modules/azure/%/tfdocs: modules/azure/%/*.tf
+modules/azure/%/tfdocs: modules/azure/%/*.tf ## Create terraform docs for a module
 	@printf "Adding tfdocs on %s...\n" $(@D)
 	@cd $(@D); terraform-docs markdown table --output-file README.md --output-mode inject ./;
 
-tfdocs-check: $(addsuffix /tfdocs-check,$(azure_modules)) ## Create terraform docs for all modules
+tfdocs-check: $(addsuffix /tfdocs-check,$(azure_modules)) ## Check if terraform docs are up-to-date
 
-modules/azure/%/tfdocs-check: modules/azure/%/*.tf
+modules/azure/%/tfdocs-check: modules/azure/%/*.tf ## Check if terraform docs in a module are up-to-date
 	@printf "Performing tfdocs checks on %s...\n" $(@D)
 	@cd $(@D); terraform-docs markdown table --output-file README.md --output-mode inject ./ --output-check;
 
-checkov:
+checkov: ## Run checkov tests
 	checkov -d modules --skip-check CKV_AZURE_59,CKV_AZURE_190 --download-external-modules false
 
-precommit: hclfmt fmt tfdocs
-ci: hclfmt-check fmt-check tflint validate tfdocs-check checkov
+test: $(addsuffix /test,$(azure_modules)) ## Run tests for all modules
+
+modules/azure/%/test: modules/azure/%/*.tf ## Run tests for a module
+	@printf "Running terraform test for %s...\n" $(@D)
+	@cd $(@D); terraform test;
+
+precommit: hclfmt fmt tfdocs ## Run all formatting before committing
+ci: hclfmt-check fmt-check tflint validate tfdocs-check checkov test ## Check if ci tasks are passing
