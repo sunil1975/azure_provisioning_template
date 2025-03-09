@@ -62,13 +62,13 @@ go/deps: go/get ## Install/Upgrade dependencies
 go/fmt: ## Format go code
 	@cd terratest; gofmt -s -w .;
 
-%/plan: ## Run terragrunt plan
+%/init %/plan: ## Run terragrunt init & plan
 	@printf "Executing terragrunt %s...\n" $(@F)
-	@cd $(@D); terragrunt $(@F) --terragrunt-non-interactive --detailed-exitcode
+	@cd $(@D); terragrunt $(@F) --non-interactive
 
-%/apply %/init: ## Run terragrunt init & apply
+%/apply: ## Run terragrunt apply
 	@printf "Executing terragrunt %s...\n" $(@F)
-	@cd $(@D); terragrunt $(@F) -auto-approve --terragrunt-non-interactive
+	@cd $(@D); terragrunt $(@F) -auto-approve --non-interactive
 
 terratest/sites/southindia/vm/pre:
 	@cd terratest; go test -v ./sites/southindia/vm/pre -timeout 90m;
