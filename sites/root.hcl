@@ -1,8 +1,8 @@
 locals {
   module_name           = "${basename(path_relative_to_include())}"
   parent_terragrunt_dir = "${get_parent_terragrunt_dir()}"
-  inputs_config          = try(read_terragrunt_config("${get_original_terragrunt_dir()}/inputs.hcl"), null)
-  backend_config   = read_terragrunt_config("${get_parent_terragrunt_dir()}/backend.hcl")
+  inputs_config         = try(read_terragrunt_config("${get_original_terragrunt_dir()}/inputs.hcl"), null)
+  backend_config        = read_terragrunt_config("${get_parent_terragrunt_dir()}/backend.hcl")
 }
 
 terraform {

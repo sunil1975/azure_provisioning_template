@@ -1,5 +1,5 @@
 locals {
-    prefix = "shakiel"
+  prefix = "shakiel"
 }
 
 inputs = {
