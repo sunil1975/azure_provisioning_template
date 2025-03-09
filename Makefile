@@ -44,4 +44,8 @@ modules/azure/%/tfdocs-check: modules/azure/%/*.tf
 	@printf "Performing tfdocs checks on %s...\n" $(@D)
 	@cd $(@D); terraform-docs markdown table --output-file README.md --output-mode inject ./ --output-check;
 
-ci: hclfmt-check fmt-check tflint validate tfdocs-check
+checkov:
+	checkov -d modules --skip-check CKV_AZURE_59,CKV_AZURE_190 --download-external-modules false
+
+precommit: hclfmt fmt tfdocs
+ci: hclfmt-check fmt-check tflint validate tfdocs-check checkov

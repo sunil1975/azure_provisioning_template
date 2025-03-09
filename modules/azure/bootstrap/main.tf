@@ -10,6 +10,7 @@ resource "azurerm_storage_account" "sa" {
   account_kind             = var.storage_account_kind
   account_tier             = var.storage_account_tier
   account_replication_type = var.storage_account_replication_type
+  min_tls_version          = "TLS1_2"
 }
 
 resource "azurerm_storage_container" "sc" {
