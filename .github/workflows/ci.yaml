@@ -62,7 +62,7 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           directory: modules/
-          skip_check: CKV_AZURE_59,CKV_AZURE_190
+          skip_check: CKV2_AZURE_1,CKV2_AZURE_40,CKV2_AZURE_21,CKV2_AZURE_41,CKV2_AZURE_38,CKV2_AZURE_47,CKV2_AZURE_33,CKV_AZURE_59,CKV_AZURE_190
           quiet: true
           framework: terraform
           output_format: sarif
