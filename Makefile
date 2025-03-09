@@ -53,5 +53,28 @@ modules/azure/%/test: modules/azure/%/*.tf ## Run tests for a module
 	@printf "Running terraform test for %s...\n" $(@D)
 	@cd $(@D); terraform test;
 
+go/get: ## Get all dependencies
+	@cd terratest; go get ./...;
+
+go/deps: go/get ## Install/Upgrade dependencies
+	@cd terratest; go mod tidy;
+
+go/fmt: ## Format go code
+	@cd terratest; gofmt -s -w .;
+
+%/plan: ## Run terragrunt plan
+	@printf "Executing terragrunt %s...\n" $(@F)
+	@cd $(@D); terragrunt $(@F) --terragrunt-non-interactive --detailed-exitcode
+
+%/apply %/init: ## Run terragrunt init & apply
+	@printf "Executing terragrunt %s...\n" $(@F)
+	@cd $(@D); terragrunt $(@F) -auto-approve --terragrunt-non-interactive
+
+terratest/sites/southindia/vm/pre:
+	@cd terratest; go test -v ./sites/southindia/vm/pre -timeout 90m;
+
+terratest/sites/southindia/vm/post:
+	@cd terratest; go test -v ./sites/southindia/vm/post -timeout 90m;
+
 precommit: hclfmt fmt tfdocs ## Run all formatting before committing
 ci: hclfmt-check fmt-check tflint validate tfdocs-check checkov test ## Check if ci tasks are passing
