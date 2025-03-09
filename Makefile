@@ -32,4 +32,16 @@ modules/azure/%/validate: modules/azure/%/*.tf
 	@printf "Performing terraform validation on %s...\n" $(@D)
 	@cd $(@D); terraform init -backend=false; terraform validate;
 
-ci: hclfmt-check fmt-check tflint validate
+tfdocs: $(addsuffix /tfdocs,$(azure_modules)) ## Create terraform docs for all modules
+
+modules/azure/%/tfdocs: modules/azure/%/*.tf
+	@printf "Adding tfdocs on %s...\n" $(@D)
+	@cd $(@D); terraform-docs markdown table --output-file README.md --output-mode inject ./;
+
+tfdocs-check: $(addsuffix /tfdocs-check,$(azure_modules)) ## Create terraform docs for all modules
+
+modules/azure/%/tfdocs-check: modules/azure/%/*.tf
+	@printf "Performing tfdocs checks on %s...\n" $(@D)
+	@cd $(@D); terraform-docs markdown table --output-file README.md --output-mode inject ./ --output-check;
+
+ci: hclfmt-check fmt-check tflint validate tfdocs-check

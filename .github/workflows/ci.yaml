@@ -46,3 +46,6 @@ jobs:
 
       - name: Validate terraform files
         run: make validate
+
+      - name: Validate whether tfdocs are up-to-date
+        run: make tfdocs-check
