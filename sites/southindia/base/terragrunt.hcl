@@ -1,5 +1,5 @@
 locals {
-  input_config = read_terragrunt_config("${get_original_terragrunt_dir()}/input.hcl")
+  input_config = read_terragrunt_config("${get_original_terragrunt_dir()}/inputs.hcl")
 }
 
 terraform {
