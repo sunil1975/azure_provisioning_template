@@ -19,3 +19,15 @@ fmt-check: $(addsuffix /fmt-check,$(azure_modules)) ## Format all tf files
 modules/azure/%/fmt-check: modules/azure/%/*.tf ## Format tf files for module
 	@printf "Check if terraform files are formatted on %s...\n" $(@D)
 	@cd $(@D); terraform fmt --check;
+
+tflint: $(addsuffix /tflint,$(azure_modules)) ## Perform tflint for all modules
+
+modules/azure/%/tflint: modules/azure/%/*.tf
+	@printf "Performing tflint on %s...\n" $(@D)
+	@cd $(@D); tflint $(tflint_config) --init; tflint $(tflint_config);
+
+detect-secrets-baseline-create:
+	detect-secrets scan > .secrets.baseline
+
+detect-secrets-baseline-update:
+	detect-secrets scan --baseline .secrets.baseline

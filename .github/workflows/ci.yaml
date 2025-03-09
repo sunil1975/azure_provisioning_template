@@ -18,6 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Secret Scanner
+        uses: secret-scanner/action@0.0.2
+        
       - name: Install Terragrunt
         continue-on-error: false
         uses: eLco/setup-terragrunt@v1
