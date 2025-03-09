@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  fmt:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
