@@ -1,6 +1,7 @@
 package terratest
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func TestVMPlan(t *testing.T) {
-	contentStr := "Hello from test"
+	contentStr := os.Getenv("TF_VAR_content")
 	planFilePath := filepath.Join("./", "plan.out")
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../../../../../modules/azure/infrastructure/vm",

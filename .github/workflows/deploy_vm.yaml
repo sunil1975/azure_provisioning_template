@@ -2,12 +2,18 @@ name: Deploy VM pipeline
 
 on:
   workflow_dispatch:
+    inputs:
+      content: 
+        description: "File content"
+        required: true
+        type: string
 
 env:
   ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  TF_VAR_content: ${{ inputs.content }}
   
 jobs:
 

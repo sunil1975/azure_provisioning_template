@@ -8,7 +8,9 @@ import (
 )
 
 func TestVMPostChecks(t *testing.T) {
+	contentStr := os.Getenv("TF_VAR_content")
 	filename := "/tmp/hi.txt"
+
 	_, error := os.Stat(filename)
 	assert.Equal(t, false, os.IsNotExist(error))
 
@@ -16,5 +18,5 @@ func TestVMPostChecks(t *testing.T) {
 	assert.NilError(t, err)
 
 	content := string(b)
-	assert.Equal(t, content, "Hello from foo, Terragrunt!")
+	assert.Equal(t, content, contentStr)
 }
