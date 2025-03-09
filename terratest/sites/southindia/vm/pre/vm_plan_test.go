@@ -24,5 +24,5 @@ func TestVMPlan(t *testing.T) {
 	filename := local_file_resource.AttributeValues["filename"]
 
 	assert.Equal(t, content, contentStr)
-	assert.Equal(t, filename, "./hi.txt")
+	assert.Equal(t, filename, "/tmp/hi.txt")
 }
