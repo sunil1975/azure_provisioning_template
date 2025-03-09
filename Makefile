@@ -5,8 +5,17 @@ azure_modules=$(shell find $(AZURE_MODULES_PATH) -not -path '*/\.*' -name main.t
 hclfmt: ## Format hcl files
 	@terragrunt hclfmt
 
-fmt: $(addsuffix /fmt,$(azure_modules)) ## Format tf files
+hclfmt-check: ## Check whether hcl files are formatted
+	@terragrunt hclfmt --check
 
-modules/azure/%/fmt: modules/azure/%/*.tf
+fmt: $(addsuffix /fmt,$(azure_modules)) ## Format all tf files
+
+modules/azure/%/fmt: modules/azure/%/*.tf ## Format tf files for module
 	@printf "Performing terraform fmt on %s...\n" $(@D)
 	@cd $(@D); terraform fmt;
+
+fmt-check: $(addsuffix /fmt-check,$(azure_modules)) ## Format all tf files
+
+modules/azure/%/fmt-check: modules/azure/%/*.tf ## Format tf files for module
+	@printf "Check if terraform files are formatted on %s...\n" $(@D)
+	@cd $(@D); terraform fmt --check;

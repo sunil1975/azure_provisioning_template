@@ -1,0 +1,31 @@
+name: CI pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .gitignore
+      - README.md
+
+  workflow_dispatch:
+
+jobs:
+
+  fmt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Terragrunt
+        continue-on-error: false
+        uses: eLco/setup-terragrunt@v1
+        with:
+          terragrunt_version: 0.75.3
+
+      - name: Check for basic formatting - terragrunt hclfmt
+        run: make hclfmt-check
+
+      - name: Check for basic formatting - terraform fmt
+        run: make fmt-check
