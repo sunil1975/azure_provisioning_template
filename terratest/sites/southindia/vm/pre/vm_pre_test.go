@@ -3,11 +3,19 @@ package terratest
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"gotest.tools/v3/assert"
 )
+
+func TestParameterValidations(t *testing.T) {
+	contentStr := os.Getenv("TF_VAR_content")
+
+	assert.Equal(t, true, strings.Contains(contentStr, "Hello"))
+	assert.Equal(t, true, len(contentStr) > 10)
+}
 
 func TestVMPlan(t *testing.T) {
 	contentStr := os.Getenv("TF_VAR_content")
