@@ -20,7 +20,9 @@ jobs:
 
       - name: Secret Scanner
         uses: secret-scanner/action@0.0.2
-        
+        with:
+          detect_secrets_version: 1.5.0
+
       - name: Install Terragrunt
         continue-on-error: false
         uses: eLco/setup-terragrunt@v1
