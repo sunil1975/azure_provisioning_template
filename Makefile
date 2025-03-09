@@ -62,9 +62,13 @@ go/deps: go/get ## Install/Upgrade dependencies
 go/fmt: ## Format go code
 	@cd terratest; gofmt -s -w .;
 
-%/init %/plan: ## Run terragrunt init & plan
+%/init: ## Run terragrunt init
 	@printf "Executing terragrunt %s...\n" $(@F)
 	@cd $(@D); terragrunt $(@F) --non-interactive
+
+%/plan: ## Run terragrunt plan
+	@printf "Executing terragrunt %s...\n" $(@F)
+	@cd $(@D); terragrunt $(@F) --non-interactive -refresh=true
 
 %/apply: ## Run terragrunt apply
 	@printf "Executing terragrunt %s...\n" $(@F)
