@@ -44,10 +44,10 @@ jobs:
         run: make sites/southindia/vm/plan
 
       - name: Run pre tests
-        run: make terratest/sites/southindia/vm/pre
+        run: make -B terratest/sites/southindia/vm/pre
 
       - name: Run terragrunt apply
         run: make sites/southindia/vm/apply
 
       - name: Run post tests
-        run: make terratest/sites/southindia/vm/post
+        run: make -B terratest/sites/southindia/vm/post
