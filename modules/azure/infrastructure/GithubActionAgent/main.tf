@@ -42,7 +42,7 @@ resource "azurerm_network_interface" "runner_nic" {
 }
 # virtual Machine
 resource "azurerm_linux_virtual_machine" "runner_vm" {
-  name                  = "github-runner-vm"
+  name                  = var.vm_name
   resource_group_name   = azurerm_resource_group.runner_rg.name
   location              = azurerm_resource_group.runner_rg.location
   size                  = "standard_B1s"
