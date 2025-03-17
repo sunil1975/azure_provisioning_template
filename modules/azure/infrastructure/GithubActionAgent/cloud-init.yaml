@@ -1,0 +1,31 @@
+#cloud-config
+package_update: true
+packages:
+  - git
+  - curl
+  - jq
+  - wget
+  - unzip
+
+runcmd:
+  - echo "Installing GitHub Actions self-hosted runner"  
+  - curl -O https://github.com/actions/runner/releases/download/v2.290.0/actions-runner-linux-x64-2.290.0.tar.gz
+  - mkdir -p /home/azureuser/actions-runner
+  - tar xzf ./actions-runner-linux-x64-2.290.0.tar.gz -C /home/azureuser/actions-runner
+  - chown -R azureuser:azureuser /home/azureuser/actions-runner
+  - sudo -u azureuser /home/azureuser/actions-runner/config.sh --url https://github.com/OWNER/REPO --token YOUR_GITHUB_TOKEN
+  - sudo -u azureuser /home/azureuser/actions-runner/svc.sh install
+  - sudo /home/azureuser/actions-runner/svc.sh start
+  - echo "Installing terraform"
+  - wget https://releases.hashicorp.com/terraform/1.11.1/terraform_1.11.1_linux_amd64.zip
+  - unzip terraform_1.11.1_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - terraform --version
+  - echo "Installing Terragrunt"
+  - curl -L https://github.com/gruntwork-io/terragrunt/release/download/terragrunt_linux_amd64 -o /usr/local/bin/terragrunt
+  - sudo chmod +x /usr/local/bin/terragrunt
+  - echo "Azure Cli installation"
+  - curl -sL https://aks.ms/installAzureCLIDev | bash
+  - echo "Installing Kubectl"
+  - az aks install-cli
+

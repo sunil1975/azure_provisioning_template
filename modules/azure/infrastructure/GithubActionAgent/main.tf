@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine" "runner_vm" {
   admin_username        = "adminuser"
   network_interface_ids = [azurerm_network_interface.runner_nic.id]
   admin_ssh_key {
-    username   = "adminuser"
+    username   = "azureuser"
     public_key = file(var.ssh_key_path)
   }
 
@@ -64,44 +64,8 @@ resource "azurerm_linux_virtual_machine" "runner_vm" {
     version   = "latest"
   }
   #Install GitHub Action runner with terraform & ansible
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update",
-      "sudo apt-get install -y curl",
-      "mkdir action-runner && cd action-runner",
-      "curl -o action-runner.tar.gz -L https://github.com/actions/runner/releases/download/v2.285.1/action-runner-linux-x64-2.285.1.tar.gz",
-      "tar xzf ./action-runner.tar.gz",
-      "./config.sh --url https://github.com/${var.github_owner}/${var.github_repo} --token ${var.github_token} --name ${var.runner_name} --unattended",
-      "./run.sh",
-      #Terrafrom Insallation   
-      "sudo apt-get install unzip",
-      "wget https://releases.hashicorp.com/terraform/1.11.1/terraform_1.11.1_linux_amd64.zip",
-      "unzip terraform_1.11.1_linux_amd64.zip",
-      "sudo mv terraform /usr/local/bin/",
-      "terraform --version",
-      #Terrafrunt Installation
-      "curl -L https://github.com/gruntwork-io/terragrunt/release/download/terragrunt_linux_amd64 -o /usr/local/bin/terragrunt",
-      "sudo chmod +x /usr/local/bin/terragrunt",
-      #Azure Cli installation
-      "curl -sL https://aks.ms/installAzureCLIDev | bash",
-      #Install kubectl
-      "az aks install-cli",
-
-
-      # Ansible Installation
-      "sudo apt install ansible",
-      "ansible --version"
-
-    ]
-
-    connection {
-      type        = "ssh"
-      host        = azurerm_public_ip.runner_public_ip.ip_address
-      user        = "adminuser"
-      private_key = file(var.ssh_key_path)
-    }
-  }
+  custom_data = filebase64("cloud-init.yaml")
+ 
 
 }
 
