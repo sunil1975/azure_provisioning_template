@@ -28,4 +28,8 @@ runcmd:
   - curl -sL https://aks.ms/installAzureCLIDev | bash
   - echo "Installing Kubectl"
   - az aks install-cli
+  - echo "Installing Ansible"
+  - sudo apt install ansible
+  - ansible --version
+  -
 
