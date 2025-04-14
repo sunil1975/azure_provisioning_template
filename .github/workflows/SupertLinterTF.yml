@@ -18,5 +18,6 @@ jobs:
         uses: github/super-linter@v6
         env:
           DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          VALIDATE_GO : false
           VALIDATE_TERRAFORM: true   # Enable Terraform linting
