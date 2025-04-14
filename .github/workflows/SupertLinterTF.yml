@@ -20,4 +20,6 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           VALIDATE_GO : false
+          VALIDATE_TERRAGRUNT: true
+          VALIDATE_TERRAFORM: true
           VALIDATE_TERRAFORM: true   # Enable Terraform linting
