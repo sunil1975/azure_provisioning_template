@@ -1,4 +1,5 @@
 inputs = {
-vm_name = "Githhubagent"
-location     = "East US"
+  vm_name = "Githubagent"
+  location = "East US"
 }
+
